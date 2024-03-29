@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_product_table
+      author: dm
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: uuid
+              - column:
+                  name: name_product
+                  type: varchar(255)
+              - column:
+                  name: create_data
+                  type: date

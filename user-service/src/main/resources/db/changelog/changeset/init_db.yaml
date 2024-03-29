@@ -1,0 +1,58 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_client_table
+      author: dm
+      changes:
+        - createTable:
+            tableName: client
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar(255)
+              - column:
+                  name: middle_name
+                  type: varchar(255)
+              - column:
+                  name: last_name
+                  type: varchar(255)
+              - column:
+                  name: mobile_phone
+                  type: varchar(255)
+
+  - changeSet:
+      id: create_user_profile_table
+      author: dm
+      changes:
+        - createTable:
+            tableName: user_profile
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: client_id
+                  type: uuid
+                  constraints:
+                    foreignKeyName: fk_client_id
+            foreignKeyConstraints:
+              - foreignKeyConstraint:
+                  baseColumnNames: client_id
+                  baseTableName: user_profile
+                  referencedColumnNames: id
+                  referencedTableName: client
+                  onDelete: CASCADE

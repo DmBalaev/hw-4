@@ -1,0 +1,52 @@
+server:
+  port: ${SERVER_PORT:8093}
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: false
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/product-db}
+    driver-class-name: org.postgresql.Driver
+    username": ${DB_LOGIN:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      transaction-isolation: TRANSACTION_SERIALIZABLE
+
+  cloud:
+    openfeign:
+      httpclient:
+        disable-ssl-validation: true
+      okhttp:
+        enabled: true
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: "order-1"
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+  instance:
+    prefer-ip-address: true
+    non-secure-port-enabled: false
+    secure-port-enabled: true
+
+
+topic:
+  send-order: send-order-event
+
+
